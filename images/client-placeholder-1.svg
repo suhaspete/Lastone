@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="30" r="30" fill="#E8ECFF"/>
+  <path d="M30 15L35.3 25.8L47 27.3L38.5 35.5L40.6 47L30 41.6L19.4 47L21.5 35.5L13 27.3L24.7 25.8L30 15Z" fill="#4A6CF7"/>
+  <text x="30" y="33" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#FFFFFF">RMH</text>
+</svg>

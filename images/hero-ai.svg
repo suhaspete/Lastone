@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background elements -->
+  <circle cx="300" cy="200" r="150" fill="#E8ECFF" />
+  <circle cx="300" cy="200" r="100" fill="#F5F7FF" />
+  
+  <!-- Brain outline -->
+  <path d="M300 100C270 100 245 110 225 130C205 150 195 175 195 205C195 235 205 260 225 280C245 300 270 310 300 310C330 310 355 300 375 280C395 260 405 235 405 205C405 175 395 150 375 130C355 110 330 100 300 100Z" stroke="#4A6CF7" stroke-width="4" fill="none" />
+  
+  <!-- Circuit lines -->
+  <path d="M250 150L250 250" stroke="#6A2CF7" stroke-width="2" />
+  <path d="M275 125L275 275" stroke="#4A6CF7" stroke-width="2" />
+  <path d="M300 100L300 300" stroke="#6A2CF7" stroke-width="2" />
+  <path d="M325 125L325 275" stroke="#4A6CF7" stroke-width="2" />
+  <path d="M350 150L350 250" stroke="#6A2CF7" stroke-width="2" />
+  
+  <path d="M200 200L400 200" stroke="#4A6CF7" stroke-width="2" />
+  <path d="M225 175L375 175" stroke="#6A2CF7" stroke-width="2" />
+  <path d="M225 225L375 225" stroke="#6A2CF7" stroke-width="2" />
+  
+  <!-- Connection nodes -->
+  <circle cx="250" cy="175" r="5" fill="#4A6CF7" />
+  <circle cx="250" cy="200" r="5" fill="#6A2CF7" />
+  <circle cx="250" cy="225" r="5" fill="#4A6CF7" />
+  
+  <circle cx="275" cy="175" r="5" fill="#6A2CF7" />
+  <circle cx="275" cy="200" r="5" fill="#4A6CF7" />
+  <circle cx="275" cy="225" r="5" fill="#6A2CF7" />
+  
+  <circle cx="300" cy="175" r="5" fill="#4A6CF7" />
+  <circle cx="300" cy="200" r="8" fill="#F74A8A" />
+  <circle cx="300" cy="225" r="5" fill="#4A6CF7" />
+  
+  <circle cx="325" cy="175" r="5" fill="#6A2CF7" />
+  <circle cx="325" cy="200" r="5" fill="#4A6CF7" />
+  <circle cx="325" cy="225" r="5" fill="#6A2CF7" />
+  
+  <circle cx="350" cy="175" r="5" fill="#4A6CF7" />
+  <circle cx="350" cy="200" r="5" fill="#6A2CF7" />
+  <circle cx="350" cy="225" r="5" fill="#4A6CF7" />
+  
+  <!-- Animated pulse (will be animated with CSS) -->
+  <circle cx="300" cy="200" r="30" fill="url(#pulse)" opacity="0.5">
+    <animate attributeName="r" values="30;50;30" dur="3s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.5;0.2;0.5" dur="3s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Gradient definitions -->
+  <defs>
+    <radialGradient id="pulse" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#F74A8A" />
+      <stop offset="100%" stop-color="#F74A8A" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+</svg>

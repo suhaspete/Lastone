@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnantaAI - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Login Styles */
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            margin: 80px auto;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header img {
+            max-width: 200px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-header h1 {
+            font-size: 24px;
+            color: var(--dark-bg);
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: var(--text-light);
+            font-size: 16px;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-bg);
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .login-form input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .login-form .input-group {
+            position: relative;
+        }
+        
+        .login-form .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            cursor: pointer;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #3a57e8;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .error-message {
+            background-color: #ffebee;
+            color: #d32f2f;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        /* Dashboard Styles */
+        .admin-container {
+            padding: 120px 0 60px;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .admin-table th, .admin-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .admin-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .admin-table tr:hover {
+            background-color: var(--light-bg);
+        }
+        
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .message-cell {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .view-message-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .view-message-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .close-modal {
+            color: var(--text-light);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover {
+            color: var(--text-color);
+        }
+        
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+        
+        .modal-body strong {
+            display: inline-block;
+            width: 100px;
+        }
+        
+        .no-contacts {
+            text-align: center;
+            padding: 50px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(74, 108, 247, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .admin-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .message-cell {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Section -->
+    <div id="login-section">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="images/hero-ai.svg" alt="AnantaAI Logo">
+                <h1>Admin Dashboard</h1>
+                <p>Enter your credentials to access the admin panel</p>
+            </div>
+            
+            <div class="error-message" id="error-message">
+                Invalid username or password. Please try again.
+            </div>
+            
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <i class="fas fa-eye-slash" id="toggle-password"></i>
+                    </div>
+                </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            
+            <div class="login-footer">
+                &copy; 2025 AnantaAI. All rights reserved.
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" style="display: none;">
+        <!-- Header Section -->
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <h1>AnantaAI</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Back to Website</a></li>
+                        <li><a href="#" id="logout-btn">Logout</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Admin Dashboard -->
+        <section class="admin-container">
+            <div class="container">
+                <div class="admin-header">
+                    <h1>Contact Form Submissions</h1>
+                    <button id="refreshBtn" class="btn btn-primary">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                
+                <div id="contactsContainer">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading contact submissions...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Message Modal -->
+        <div id="messageModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="modal-header">
+                    <h2>Contact Details</h2>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Contact details will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is authenticated
+            const isAuthenticated = sessionStorage.getItem('adminAuthenticated') === 'true';
+            const loginSection = document.getElementById('login-section');
+            const dashboardSection = document.getElementById('dashboard-section');
+            
+            // Toggle password visibility
+            const togglePassword = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+            
+            // Handle form submission
+            const loginForm = document.getElementById('login-form');
+            const errorMessage = document.getElementById('error-message');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    
+                    // Simple hardcoded authentication for demo purposes
+                    // In a real application, this should be handled securely on the server
+                    if (username === 'admin' && password === 'ananta123') {
+                        // Store authentication in session storage
+                        sessionStorage.setItem('adminAuthenticated', 'true');
+                        // Show dashboard
+                        loginSection.style.display = 'none';
+                        dashboardSection.style.display = 'block';
+                        // Load contacts
+                        fetchContacts();
+                    } else {
+                        // Show error message
+                        errorMessage.classList.add('show');
+                        setTimeout(() => {
+                            errorMessage.classList.remove('show');
+                        }, 3000);
+                    }
+                });
+            }
+            
+            // Handle logout
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Clear authentication
+                    sessionStorage.removeItem('adminAuthenticated');
+                    // Show login form
+                    loginSection.style.display = 'block';
+                    dashboardSection.style.display = 'none';
+                });
+            }
+            
+            // Show appropriate section based on authentication
+            if (isAuthenticated) {
+                loginSection.style.display = 'none';
+                dashboardSection.style.display = 'block';
+                // Load contacts
+                fetchContacts();
+            } else {
+                loginSection.style.display = 'block';
+                dashboardSection.style.display = 'none';
+            }
+            
+            // Modal functionality
+            const modal = document.getElementById('messageModal');
+            const closeModal = document.querySelector('.close-modal');
+            
+            if (closeModal && modal) {
+                closeModal.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+                
+                window.addEventListener('click', function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Refresh button
+            const refreshBtn = document.getElementById('refreshBtn');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', fetchContacts);
+            }
+        });
+        
+        // Function to show contact details in modal
+        function showContactDetails(contact) {
+            const modalBody = document.getElementById('modalBody');
+            const modal = document.getElementById('messageModal');
+            
+            // Format date
+            const date = new Date(contact.createdAt);
+            const formattedDate = date.toLocaleString();
+            
+            modalBody.innerHTML = `
+                <p><strong>Name:</strong> ${contact.name}</p>
+                <p><strong>Email:</strong> ${contact.email}</p>
+                <p><strong>Company:</strong> ${contact.company || 'N/A'}</p>
+                <p><strong>Subject:</strong> ${contact.subject || 'N/A'}</p>
+                <p><strong>Date:</strong> ${formattedDate}</p>
+                <p><strong>Message:</strong></p>
+                <div class="message-content">${contact.message}</div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+        
+        // Function to fetch and display contacts
+        function fetchContacts() {
+            const contactsContainer = document.getElementById('contactsContainer');
+            
+            contactsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading contact submissions...</p>
+                </div>
+            `;
+            
+            fetch('/api/contacts')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(contacts => {
+                    if (contacts.length === 0) {
+                        contactsContainer.innerHTML = `
+                            <div class="no-contacts">
+                                <i class="fas fa-inbox fa-3x" style="color: var(--text-light); margin-bottom: 20px;"></i>
+                                <h2>No Contact Submissions Yet</h2>
+                                <p>When visitors submit the contact form, their messages will appear here.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    let tableHTML = `
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Company</th>
+                                    <th>Subject</th>
+                                    <th>Date</th>
+                                    <th>Message</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    
+                    contacts.forEach(contact => {
+                        // Format date
+                        const date = new Date(contact.createdAt);
+                        const formattedDate = date.toLocaleDateString();
+                        
+                        tableHTML += `
+                            <tr>
+                                <td>${contact.name}</td>
+                                <td>${contact.email}</td>
+                                <td>${contact.company || 'N/A'}</td>
+                                <td>${contact.subject || 'N/A'}</td>
+                                <td>${formattedDate}</td>
+                                <td class="message-cell">${contact.message}</td>
+                                <td>
+                                    <button class="view-message-btn" onclick="showContactDetails(${JSON.stringify(contact).replace(/"/g, '&quot;')})">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+                    
+                    contactsContainer.innerHTML = tableHTML;
+                })
+                .catch(error => {
+                    console.error('Error fetching contacts:', error);
+                    contactsContainer.innerHTML = `
+                        <div class="no-contacts" style="color: var(--danger);">
+                            <i class="fas fa-exclamation-triangle fa-3x" style="color: var(--danger); margin-bottom: 20px;"></i>
+                            <h2>Error Loading Contacts</h2>
+                            <p>There was a problem loading the contact submissions. Please try again later.</p>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        }
+    </script>
+</body>
+</html>
